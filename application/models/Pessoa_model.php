@@ -57,7 +57,7 @@ class Pessoa extends CI_Model{
      * @author: Dhiego Balthazar
      * @returns: mixed Pessoa
      * @params: $object Pessoa
-     * Método que retorna um objeto do tipo Pessoa comparado pelo RG
+     * O método getByRg() tem como objetivo retornar um objeto do tipo Pessoa comparado pelo RG na tabela pessoa
      * SQL STATEMENT: SELECT * FROM PESSOA WHERE RG = RG@params;
      * 
      */
@@ -69,14 +69,13 @@ class Pessoa extends CI_Model{
 
     /*
      * @author: Dhiego Balthazar
-     * @returns: mixed
+     * @returns: bool
      * @params: $object Pessoa
-     * Insere um objeto do tipo Pessoa na tabela Pessoa
-     * SQL STATEMENT: SELECT * FROM PESSOA WHERE RG = RG@params;
+     * O médodo persist() tem como objetivo inserir um objeto do tipo Pessoa na tabela pessoa;
+     * SQL STATEMENT: INSERT INTO pessoa VALUES(nome, rg);
      * 
      */
-    public function persist($object){
-    	$this->db->set('nome', $object->nome);
-    	$this->db->set('rg', $object->rg);
+    public function persist(){
+    	return $this->db->insert('pessoa', $this);
     }
 }
