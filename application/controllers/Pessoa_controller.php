@@ -14,7 +14,7 @@ class Pessoa_controller extends CI_Controller{
     		$data['title'] = 'Inserir Pessoa';
     		$data['errors'] = $this->session->flashdata('errors');
     		$data['old_data'] = $this->session->flashdata('old_data');
-    		loadTemplate('includes/header', 'pessoa', 'includes/footer', $data);
+    		loadTemplate('includes/header', 'pessoa/index', 'includes/footer', $data);
     	}
     }
 

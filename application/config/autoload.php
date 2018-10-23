@@ -96,8 +96,8 @@ $autoload['drivers'] = array();
 $autoload['helper'] = array(
 		'url',
 	    'loadTemplate',
-	    'switchDate',
-	    'string',
+	    //'switchDate',
+	    'string'
     );
 
 /*
