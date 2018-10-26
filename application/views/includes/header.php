@@ -8,6 +8,7 @@
         <meta name="author" content="">
         <link rel="icon" type="image/png" sizes="16x16" href="<?php echo base_url(); ?>assets/plugins/images/favicon.png">
         <title>Pixel Admin - Responsive Admin Dashboard Template built with Twitter Bootstrap</title>
+        <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
         <!-- Bootstrap Core CSS -->
         <link href="<?php echo base_url(); ?>assets/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
         <!-- Menu CSS -->

@@ -1,15 +1,27 @@
- <script>
+<script>
+    /*
+     * @author: Dhiego Balthazar
+     * Método que limpa os imputs da página
+     *
+     *
+     */
+    function limparInputs(){
+        $('input').val("");
+        $('select').prop('selectedIndex', 0);
+    }
+
     $(function(){
-        ('#entrar').click(function(){
-            $.ajax({
-               type: "POST",
-               url: "http://localhost/portaria/visitas",
-               success: function(){
-                ('table').append("<tr><td>1</td><td>Deshmukh</td><td>Prohaska</td><td>@Genelia</td><td>admin</td></tr>");
-               }
-           });
+        $('#entrar').click(function(){
+            var d = new Date();
+            var strDate = d.getDate() + "/"  + (d.getMonth()+1) + "/" + d.getFullYear();
+            var hora = d.getHours() + ":" + (d.getMinutes()<10?"0" + d.getMinutes(): d.getMinutes());
+            var nome = $("input[name=nome]").val();
+            var rg = $("input[name=rg]").val();
+            var setor = $("select[name=setor]").val();
+            $('tbody').append("<tr><td>"+strDate+"</td><td>"+nome+"</td><td>"+rg+"</td><td>"+setor+"</td><td>"+hora+"</td></tr>");
+            limparInputs();
         });
-    }); 
+    });            
 </script>
 <div class="container-fluid">
     <div class="row bg-title">
@@ -33,56 +45,16 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Username</th>
-                                <th>Role</th>
+                                <th>Data</th>
+                                <th>Nome</th>
+                                <th>RG</th>
+                                <th>Setor</th>
+                                <th>Hora da Entrada</th>
+                                <th>Hora da Saída</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Deshmukh</td>
-                                <td>Prohaska</td>
-                                <td>@Genelia</td>
-                                <td>admin</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Deshmukh</td>
-                                <td>Gaylord</td>
-                                <td>@Ritesh</td>
-                                <td>member</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Sanghani</td>
-                                <td>Gusikowski</td>
-                                <td>@Govinda</td>
-                                <td>developer</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>Roshan</td>
-                                <td>Rogahn</td>
-                                <td>@Hritik</td>
-                                <td>supporter</td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>Joshi</td>
-                                <td>Hickle</td>
-                                <td>@Maruti</td>
-                                <td>member</td>
-                            </tr>
-                            <tr>
-                                <td>6</td>
-                                <td>Nigam</td>
-                                <td>Eichmann</td>
-                                <td>@Sonu</td>
-                                <td>supporter</td>
-                            </tr>
+                            
                         </tbody>
                     </table>
                 </div>
@@ -103,18 +75,18 @@
                     </div>
                     <div class="form-group">
                             <div class="col-sm-12">
-                                <select class="form-control form-control-line">
+                                <select class="form-control form-control-line" name="setor">
                                     <option selected="selected">SETOR</option>
-                                    <option>India</option>
-                                    <option>Usa</option>
-                                    <option>Canada</option>
-                                    <option>Thailand</option>
+                                    <option value="Contagem">Contagem</option>
+                                    <option value="Pagamento">Pagamento</option>
+                                    <option value="Escola da Família">Escola da Família</option>
+                                    <option value="Supervisão">Supervisão</option>
                                 </select>
                             </div>
                         </div>
                     <div class="form-group">
                         <div class="col-sm-6">
-                            <button class="btn btn-success" id="entrar">Entrar</button>
+                            <button type="button" class="btn btn-success" id="entrar">Entrar</button>
                         </div>
                     </div>
                 </form>
