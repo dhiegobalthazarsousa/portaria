@@ -2,14 +2,16 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Pessoa extends CI_Model{
+class Pessoa_model extends CI_Model{
 
 	private $id_pessoa;
 	private $nome;
 	private $rg;
 
+
+    //*****************************Getters and Setters********************************
+
 	/*
-	 * Getters & Setters
 	 * @author: Dhiego Balthazar
 	 *
 	 */
@@ -41,6 +43,8 @@ class Pessoa extends CI_Model{
     	$this->rg = $rg;
     }
 
+    //***************************Data Access********************************************
+
     /*
      * @author: Dhiego Balthazar
      * @returns: mixed Pessoa
@@ -48,23 +52,37 @@ class Pessoa extends CI_Model{
      * SQL STATEMENT: SELECT * FROM PESSOA;
      * 
      */
-    public fucntion get(){
-    	$querry = $this->db->get('pessoa');
-    	return $querry->result();
+    public function getAll(){
+    	$query = $this->db->get('pessoa');
+    	return $query->result();
     }
 
     /*
      * @author: Dhiego Balthazar
      * @returns: mixed Pessoa
      * @params: $object Pessoa
-     * O método getByRg() tem como objetivo retornar um objeto do tipo Pessoa comparado pelo RG na tabela pessoa
+     * O método findByRg() tem como objetivo retornar um objeto do tipo Pessoa comparado pelo RG na tabela pessoa
      * SQL STATEMENT: SELECT * FROM PESSOA WHERE RG = RG@params;
      * 
      */
-    public function getByRg($object){
+    public function findByRg($object){
     	$this->db->select('*');
     	$this->db->where('rg', $object->rg);
     	return $this->db->get('pessoa')->row();
+    }
+
+    /*
+     * @author: Dhiego Balthazar
+     * @returns: mixed Pessoa
+     * @params: $object Pessoa
+     * O método findByNome() tem como objetivo retornar um objeto do tipo Pessoa comparado pelo Nome na tabela pessoa
+     * SQL STATEMENT: SELECT * FROM PESSOA WHERE nome = nome@params;
+     * 
+     */
+    public function findByNome($object){
+        $this->db->select('*');
+        $this->db->where('nome', $object->nome);
+        return $this->db->get('pessoa')->row();
     }
 
     /*

@@ -96,7 +96,7 @@ $autoload['drivers'] = array();
 $autoload['helper'] = array(
 		'url',
 	    'loadTemplate',
-	    //'switchDate',
+	    'switchDate',
 	    'string'
     );
 
@@ -141,4 +141,8 @@ $autoload['language'] = array();
 |
 |	$autoload['model'] = array('first_model' => 'first');
 */
-$autoload['model'] = array();
+$autoload['model'] = array(
+	'Pessoa_model' => 'pessoa',
+	'Visita_model' => 'visita',
+	'Setor_model' => 'setor'
+);

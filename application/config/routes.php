@@ -53,4 +53,4 @@ $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
-$route['visitas'] = 'Pessoa_controller/salvar';
+$route['visitas'] = 'Visita_controller/index';

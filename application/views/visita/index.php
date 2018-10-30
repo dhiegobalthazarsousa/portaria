@@ -1,3 +1,32 @@
+<?php
+    function getNomePessoa($id, $list){
+        $nome = "";
+        foreach($list as $pessoa){
+            if($pessoa->id_pessoa === $id){
+                $nome = $pessoa->nome;
+            }
+        }
+        return $nome;
+    }
+    function getRgPessoa($id, $list){
+        $rg = "";
+        foreach($list as $pessoa){
+            if($pessoa->id_pessoa === $id){
+                $rg = $pessoa->rg;
+            }
+        }
+        return $rg;
+    }
+    function getNomeSetor($id, $list){
+        $nome = "";
+        foreach($list as $setor){
+            if($setor->id_setor === $id){
+                $nome = $setor->nome;
+            }
+        }
+        return $nome;
+    }
+?>
 <script>
     /*
      * @author: Dhiego Balthazar
@@ -9,12 +38,17 @@
         $('input').val("");
         $('select').prop('selectedIndex', 0);
     }
-
+</script>
+<script>
+    /*
+     *@author: Dhiego Balthazar
+     *
+     */
     $(function(){
         $('#entrar').click(function(){
             var d = new Date();
             var strDate = d.getDate() + "/"  + (d.getMonth()+1) + "/" + d.getFullYear();
-            var hora = d.getHours() + ":" + (d.getMinutes()<10?"0" + d.getMinutes(): d.getMinutes());
+            var hora = d.getHours() + ":" + (d.getMinutes()<10? "0" + d.getMinutes(): d.getMinutes())+":"+(d.getSeconds()<10? "0" + d.getSeconds(): d.getSeconds());
             var nome = $("input[name=nome]").val();
             var rg = $("input[name=rg]").val();
             var setor = $("select[name=setor]").val();
@@ -54,7 +88,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            
+                            <?php if(isset($visitas)): ?>
+                                <?php foreach($visitas as $visita): ?>
+                                    <?php echo "<tr><td>".$visita->data."</td><td>".getNomePessoa($visita->id_pessoa, $pessoas)."</td><td>".getRgPessoa($visita->id_pessoa, $pessoas)."</td><td>".getNomeSetor($visita->id_setor, $setores)."</td><td>".$visita->hora_entrada."</td><td>".$visita->hora_saida."</td></tr>"; ?>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
@@ -77,10 +115,9 @@
                             <div class="col-sm-12">
                                 <select class="form-control form-control-line" name="setor">
                                     <option selected="selected">SETOR</option>
-                                    <option value="Contagem">Contagem</option>
-                                    <option value="Pagamento">Pagamento</option>
-                                    <option value="Escola da Família">Escola da Família</option>
-                                    <option value="Supervisão">Supervisão</option>
+                                    <?php foreach($setores as $setor): ?>
+                                        <?php echo "<option>$setor->nome</option>"; ?>
+                                    <?php endforeach; ?>
                                 </select>
                             </div>
                         </div>
