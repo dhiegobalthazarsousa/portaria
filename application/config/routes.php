@@ -54,3 +54,5 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 $route['visitas'] = 'Visita_controller/index';
+$route['buscar/rg/pessoa/(:num)'] = 'Pessoa_controller/searchRg/$1';
+$route['buscar/nome/pessoa'] = 'Pessoa_controller/searchNome';

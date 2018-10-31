@@ -1,3 +1,4 @@
+<!--********************************Funções PHP********************************-->
 <?php
     function getNomePessoa($id, $list){
         $nome = "";
@@ -8,6 +9,7 @@
         }
         return $nome;
     }
+
     function getRgPessoa($id, $list){
         $rg = "";
         foreach($list as $pessoa){
@@ -17,6 +19,7 @@
         }
         return $rg;
     }
+
     function getNomeSetor($id, $list){
         $nome = "";
         foreach($list as $setor){
@@ -27,6 +30,14 @@
         return $nome;
     }
 ?>
+<!--*********************Style CSS*****************************-->
+<style type="text/css">
+.form-group .btn{
+    border-radius: 10px;
+} 
+</style>
+
+<!--********************Funções Javascript*********************-->
 <script>
     /*
      * @author: Dhiego Balthazar
@@ -38,13 +49,13 @@
         $('input').val("");
         $('select').prop('selectedIndex', 0);
     }
+
 </script>
+<!--********************Funções Javascript/JQUERY que utilizam $(function(){})*********************-->
 <script>
-    /*
-     *@author: Dhiego Balthazar
-     *
-     */
     $(function(){
+
+        //bloco para inserir uma visita 
         $('#entrar').click(function(){
             var d = new Date();
             var strDate = d.getDate() + "/"  + (d.getMonth()+1) + "/" + d.getFullYear();
@@ -52,29 +63,40 @@
             var nome = $("input[name=nome]").val();
             var rg = $("input[name=rg]").val();
             var setor = $("select[name=setor]").val();
-            $('tbody').append("<tr><td>"+strDate+"</td><td>"+nome+"</td><td>"+rg+"</td><td>"+setor+"</td><td>"+hora+"</td></tr>");
+            $('tbody').append("<tr><td>"+strDate+"</td><td>"+nome+"</td><td>"+rg+"</td><td>"+setor+"</td><td>"+hora+"</td><td><button type='button' class='btn btn-info' id='saida'>Marcar Saída</button></td></tr>");
             limparInputs();
+        });
+
+        //esse bloco é para buscar uma pessoa pelo rg
+        $('#buscar_rg').click(function(){
+            $.ajax({
+                type: 'GET',
+                contentType: "json",
+                url: '<?php echo base_url(); ?>buscar/rg/pessoa/'+ $('input[name=rg]').val(),
+                success: function(data) {
+                    var pessoa = jQuery.parseJSON(data);
+                    if(pessoa == null){
+                        alert("Pessoa Não Cadastrada");
+                        limparInputs();
+                    }else{
+                        $('input[name=nome]').val(pessoa.nome);
+                    }
+                }
+            });
         });
     });            
 </script>
+
 <div class="container-fluid">
     <div class="row bg-title">
         <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-            <h4 class="page-title">Basic Table</h4> </div>
-        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12"> <a href="http://wrappixel.com/templates/pixeladmin/" target="_blank" class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">Upgrade to Pro</a>
-            <ol class="breadcrumb">
-                <li><a href="#">Dashboard</a></li>
-                <li class="active">Basic Table</li>
-            </ol>
+            <h4 class="page-title">Lista de Visitas</h4>
         </div>
-        <!-- /.col-lg-12 -->
     </div>
     <!-- /row -->
     <div class="row">
         <div class="col-sm-12">
             <div class="white-box">
-                <h3 class="box-title">Basic Table</h3>
-                <p class="text-muted">Add class <code>.table</code></p>
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
@@ -100,15 +122,21 @@
         </div>
         <div class="col-sm-12">
             <div class="white-box">
-                <form class="form-horizontal form-material">
+                <form class="form-horizontal form-material" id="form-pessoa">
                     <div class="form-group">
                         <div class="col-md-8">
                             <input type="text" placeholder="NOME" class="form-control form-control-line" name="nome">
+                        </div>
+                        <div class="col-sm-4">
+                            <button type="button" class="btn btn-info" id="buscar_nome"><i class="fa fa-search"></i></button>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-md-8">
                             <input type="text" placeholder="RG" class="form-control form-control-line" name="rg">
+                        </div>
+                        <div class="col-sm-4">
+                            <button type="button" class="btn btn-info" id="buscar_rg"><i class="fa fa-search"></i></button>
                         </div>
                     </div>
                     <div class="form-group">
@@ -123,7 +151,7 @@
                         </div>
                     <div class="form-group">
                         <div class="col-sm-6">
-                            <button type="button" class="btn btn-success" id="entrar">Entrar</button>
+                            <button type="button" class="btn btn-success" id="entrar">Efetuar Entrada</button>
                         </div>
                     </div>
                 </form>

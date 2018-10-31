@@ -65,9 +65,9 @@ class Pessoa_model extends CI_Model{
      * SQL STATEMENT: SELECT * FROM PESSOA WHERE RG = RG@params;
      * 
      */
-    public function findByRg($object){
+    public function findByRg($rg){
     	$this->db->select('*');
-    	$this->db->where('rg', $object->rg);
+    	$this->db->where('rg', $rg);
     	return $this->db->get('pessoa')->row();
     }
 
