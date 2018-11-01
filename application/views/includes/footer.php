@@ -26,17 +26,6 @@
         <script src="<?php echo base_url(); ?>assets/js/dashboard1.js"></script>
         <script src="<?php echo base_url(); ?>assets/plugins/bower_components/toast-master/js/jquery.toast.js"></script>
         <script type="text/javascript">
-        $(document).ready(function() {
-            $.toast({
-                heading: 'BEM VINDO!</br></br>LISTA DE VISITANTES</br>Diretoria de Ensino Região de Caraguatatuba',
-                text: 'Bom trabalho!',
-                position: 'mid-center',
-                loaderBg: '#ff6849',
-                icon: 'success',
-                hideAfter: 3500,
-                stack: 6
-            })
-        });
         </script>
     </body>
 </html>

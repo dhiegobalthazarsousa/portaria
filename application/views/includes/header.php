@@ -32,6 +32,36 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     </head>
+    <style>
+        .form-group .btn{
+            border-radius: 10px;
+        }
+        .errors{
+            font-weight: bold;
+            padding-top: 2px;
+            padding-left: 2px;
+            border-radius: 10px;
+            background-color: blue;
+        } 
+
+        .navbar-header h1{
+            color: white;
+            font-size: 15pt;
+            font-weight: bold;
+
+        }
+        dl{
+            font-size: 12pt;
+            margin-left: 10px;
+            margin-top: 25px;
+            color: white;
+        }
+
+        dl dd{
+            margin-left:10px;
+        }
+
+    </style>
 
     <body>
         <!-- Preloader -->
@@ -42,17 +72,9 @@
             <!-- Navigation -->
             <nav class="navbar navbar-default navbar-static-top m-b-0">
                 <div class="navbar-header"> <a class="navbar-toggle hidden-sm hidden-md hidden-lg " href="javascript:void(0)" data-toggle="collapse" data-target=".navbar-collapse"><i class="fa fa-bars"></i></a>
-                    <div class="top-left-part"><a class="logo" href="index.html"><b><img src="<?php echo base_url(); ?>assets/plugins/images/pixeladmin-logo.png" alt="home" /></b><span class="hidden-xs"><img src="<?php echo base_url(); ?>assets/plugins/images/pixeladmin-text.png" alt="home" /></span></a></div>
-                    <ul class="nav navbar-top-links navbar-left m-l-20 hidden-xs">
+                    <ul class="nav navbar-top-links navbar-left">
                         <li>
-                            <form role="search" class="app-search hidden-xs">
-                                <input type="text" placeholder="Search..." class="form-control"> <a href=""><i class="fa fa-search"></i></a>
-                            </form>
-                        </li>
-                    </ul>
-                    <ul class="nav navbar-top-links navbar-right pull-right">
-                        <li>
-                            <a class="profile-pic" href="#"> <img src="<?php echo base_url(); ?>assets/plugins/images/users/varun.jpg" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">Steave</b> </a>
+                           <h1>Controle de Entrada - Diretoria de Ensino Região de Caraguatatuba</h1>
                         </li>
                     </ul>
                 </div>
@@ -63,32 +85,10 @@
             <!-- Left navbar-header -->
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse slimscrollsidebar">
-                    <ul class="nav" id="side-menu">
-                        <li style="padding: 10px 0 0;">
-                            <a href="index.html" class="waves-effect"><i class="fa fa-clock-o fa-fw" aria-hidden="true"></i><span class="hide-menu">Dashboard</span></a>
-                        </li>
-                        <li>
-                            <a href="profile.html" class="waves-effect"><i class="fa fa-user fa-fw" aria-hidden="true"></i><span class="hide-menu">Profile</span></a>
-                        </li>
-                        <li>
-                            <a href="basic-table.html" class="waves-effect"><i class="fa fa-table fa-fw" aria-hidden="true"></i><span class="hide-menu">Basic Table</span></a>
-                        </li>
-                        <li>
-                            <a href="fontawesome.html" class="waves-effect"><i class="fa fa-font fa-fw" aria-hidden="true"></i><span class="hide-menu">Icons</span></a>
-                        </li>
-                        <li>
-                            <a href="map-google.html" class="waves-effect"><i class="fa fa-globe fa-fw" aria-hidden="true"></i><span class="hide-menu">Google Map</span></a>
-                        </li>
-                        <li>
-                            <a href="blank.html" class="waves-effect"><i class="fa fa-columns fa-fw" aria-hidden="true"></i><span class="hide-menu">Blank Page</span></a>
-                        </li>
-                        <li>
-                            <a href="404.html" class="waves-effect"><i class="fa fa-info-circle fa-fw" aria-hidden="true"></i><span class="hide-menu">Error 404</span></a>
-                        </li>
-                    </ul>
-                    <div class="center p-20">
-                        <span class="hide-menu"><a href="http://wrappixel.com/templates/pixeladmin/" target="_blank" class="btn btn-danger btn-block btn-rounded waves-effect waves-light">Upgrade to Pro</a></span>
-                    </div>
+                    <dl>
+                      <dt>Relatórios</dt>
+                      <dd>2018</dd>
+                    </dl>
                 </div>
             </div>
             <!-- Left navbar-header end -->

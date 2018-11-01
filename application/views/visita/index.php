@@ -30,15 +30,19 @@
         return $nome;
     }
 ?>
-<!--*********************Style CSS*****************************-->
-<style type="text/css">
-.form-group .btn{
-    border-radius: 10px;
-} 
-</style>
-
-<!--********************Funções Javascript*********************-->
+<!--*****************************Funções Javascript*********************-->
 <script>
+    function confereInputNome(){
+        if($("input[name=nome]").val() == "")
+            return false;
+        return true;
+    }
+
+    function confereInputRG(){
+        if($("input[name=rg]").val() == "")
+            return false;
+        return true;
+    }
     /*
      * @author: Dhiego Balthazar
      * Método que limpa os imputs da página
@@ -50,21 +54,39 @@
         $('select').prop('selectedIndex', 0);
     }
 
+    function limparErros(){
+        $("#error-nome").hide();
+        $("#error-rg").hide();
+    }
+
 </script>
+
 <!--********************Funções Javascript/JQUERY que utilizam $(function(){})*********************-->
 <script>
     $(function(){
+        limparErros();
 
         //bloco para inserir uma visita 
         $('#entrar').click(function(){
-            var d = new Date();
-            var strDate = d.getDate() + "/"  + (d.getMonth()+1) + "/" + d.getFullYear();
-            var hora = d.getHours() + ":" + (d.getMinutes()<10? "0" + d.getMinutes(): d.getMinutes())+":"+(d.getSeconds()<10? "0" + d.getSeconds(): d.getSeconds());
-            var nome = $("input[name=nome]").val();
-            var rg = $("input[name=rg]").val();
-            var setor = $("select[name=setor]").val();
-            $('tbody').append("<tr><td>"+strDate+"</td><td>"+nome+"</td><td>"+rg+"</td><td>"+setor+"</td><td>"+hora+"</td><td><button type='button' class='btn btn-info' id='saida'>Marcar Saída</button></td></tr>");
-            limparInputs();
+            if(!(confereInputRG() && confereInputNome())){
+                if(!confereInputRG()){
+                    $("#error-rg").show();
+                }
+                if(!confereInputNome()){
+                    $("#error-nome").show();
+                }
+            }else{
+                var d = new Date();
+                var strDate = d.getDate() + "/"  + (d.getMonth()+1) + "/" + d.getFullYear();
+                var hora = d.getHours() + ":" + (d.getMinutes()<10? "0" + d.getMinutes(): d.getMinutes())+":"+(d.getSeconds()<10? "0" + d.getSeconds(): d.getSeconds());
+                var nome = $("input[name=nome]").val();
+                var rg = $("input[name=rg]").val();
+                var setor = $("select[name=setor]").val();
+                $('tbody').append("<tr><td>"+strDate+"</td><td>"+nome+"</td><td>"+rg+"</td><td>"+setor+"</td><td>"+hora+"</td><td><button type='button' class='btn btn-info' id='saida'>Marcar Saída</button></td></tr>");
+
+                limparInputs();
+                limparErros();
+            }
         });
 
         //esse bloco é para buscar uma pessoa pelo rg
@@ -76,8 +98,16 @@
                 success: function(data) {
                     var pessoa = jQuery.parseJSON(data);
                     if(pessoa == null){
-                        alert("Pessoa Não Cadastrada");
-                        limparInputs();
+                        $.toast({
+                            heading: 'Pessoa não cadastrada!',
+                            text: ['Digite o nome manualmente;', 'Efetue a entrada;', 'A pessoa será cadastrada automaticamente'],
+                            position: 'mid-center',
+                            loaderBg: '#ff6849',
+                            icon: 'error',
+                            hideAfter: 4000,
+                            showHideTransition: 'slide',
+                            stack: 6
+                        })
                     }else{
                         $('input[name=nome]').val(pessoa.nome);
                     }
@@ -90,7 +120,7 @@
 <div class="container-fluid">
     <div class="row bg-title">
         <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-            <h4 class="page-title">Lista de Visitas</h4>
+            <h4 class="page-title">DE CARAGUATTAUBA</h4>
         </div>
     </div>
     <!-- /row -->
@@ -124,23 +154,22 @@
             <div class="white-box">
                 <form class="form-horizontal form-material" id="form-pessoa">
                     <div class="form-group">
-                        <div class="col-md-8">
-                            <input type="text" placeholder="NOME" class="form-control form-control-line" name="nome">
-                        </div>
-                        <div class="col-sm-4">
-                            <button type="button" class="btn btn-info" id="buscar_nome"><i class="fa fa-search"></i></button>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-8">
+                        <div class="col-md-2" id="div-rg">
                             <input type="text" placeholder="RG" class="form-control form-control-line" name="rg">
+                            <div class="errors bg-danger" id="error-rg"><p>O campo RG não pode estar vazio!</p></div>
                         </div>
                         <div class="col-sm-4">
                             <button type="button" class="btn btn-info" id="buscar_rg"><i class="fa fa-search"></i></button>
                         </div>
                     </div>
                     <div class="form-group">
-                            <div class="col-sm-12">
+                        <div class="col-md-5" id="div-nome">
+                            <input type="text" placeholder="NOME" class="form-control form-control-line" name="nome">
+                            <div class="errors bg-danger" id="error-nome"><p>O campo NOME não pode estar vazio!</p></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                            <div class="col-sm-2">
                                 <select class="form-control form-control-line" name="setor">
                                     <option selected="selected">SETOR</option>
                                     <?php foreach($setores as $setor): ?>
