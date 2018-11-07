@@ -25,6 +25,7 @@
         <link href="<?php echo base_url(); ?>assets/css/colors/blue-dark.css" id="theme" rel="stylesheet">
         <!--Ajax JQUERY-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -32,39 +33,15 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     </head>
-    <style>
-        .form-group .btn{
-            border-radius: 10px;
-        }
-        .errors{
-            font-weight: bold;
-            padding-top: 2px;
-            padding-left: 2px;
-            border-radius: 10px;
-            background-color: blue;
-        } 
-
-        .navbar-header h1{
-            color: white;
-            font-size: 15pt;
-            font-weight: bold;
-
-        }
-        dl{
-            font-size: 12pt;
-            margin-left: 10px;
-            margin-top: 25px;
-            color: white;
-        }
-
-        dl dd{
-            margin-left:10px;
-        }
-
-    </style>
-    <!--*****************************Funções Javascript*********************-->
     <script>
 
+        /**
+         *
+         * Metodo que apresenta um Toast como mensagem de retorno
+         * @author: Dhiego Balthazar
+         * @params: heading, text, icon
+         *
+        */
         function showToast(heading, text, icon){
             $.ajax({
                 type: 'GET',
@@ -91,21 +68,22 @@
             });
         }
 
-        function confereInputNome(){
-            if($("input[name=nome]").val() == "")
-                return false;
-            return true;
-        }
 
-        function confereInputRG(){
-            if($("input[name=rg]").val() == "")
+        /**
+         *
+         * Metodo onfere se o campo informado é vazio ou não
+         * @author: Dhiego Balthazar
+         * @params: nome: string - nome atributo name do input
+        */
+        function inputIsValid(val){
+            if(val == "")
                 return false;
             return true;
         }
 
         /*
          * @author: Dhiego Balthazar
-         * Método que limpa os imputs da página
+         * Método que limpa os inputs da página
          *
          *
          */
@@ -114,31 +92,31 @@
             $('select').prop('selectedIndex', 0);
         }
 
+        /*
+         * @author: Dhiego Balthazar
+         * Método que limpa os erros da página
+         *
+         */
         function limparErros(){
             $("#error-nome").hide();
             $("#error-rg").hide();
         }
 
-    </script>
-
-    <!--********************Funções Javascript/JQUERY que utilizam $(function(){})*********************-->
-    <script>
+        //Metodos que funionam quando o documento carregar
         $(function(){
             limparErros();
 
             //bloco para inserir uma visita 
             $('#entrar').click(function(){
-                if(!(confereInputRG() && confereInputNome())){
-                    if(!confereInputRG()){
-                        $("#error-rg").show();
-                    }
-                    if(!confereInputNome()){
-                        $("#error-nome").show();
-                    }
+                var rgIsValid = inputIsValid($('input[name=rg]').val());
+                var nomeIsValid = inputIsValid($('input[name=nome]').val());
+
+                if(!(rgIsValid && nomeIsValid)){
+                    if(!rgIsValid)
+                            $("#error-rg").show();
+                    if(!nomeIsValid)
+                            $("#error-nome").show();
                 }else{
-                    $.ajax({
-                        
-                    });
                     var d = new Date();
                     var strDate = d.getDate() + "/"  + (d.getMonth()+1) + "/" + d.getFullYear();
                     var hora = d.getHours() + ":" + (d.getMinutes()<10? "0" + d.getMinutes(): d.getMinutes())+":"+(d.getSeconds()<10? "0" + d.getSeconds(): d.getSeconds());
@@ -151,10 +129,12 @@
                     limparErros();
                 }
             });
-
+           
             //esse bloco é para buscar uma pessoa pelo rg
             $('#buscar_rg').click(function(){
-                if(confereInputRG()){
+                limparErros();
+                var rgIsValid = inputIsValid($('input[name=rg]').val());
+                if(rgIsValid){
                     $.ajax({
                         type: 'GET',
                         contentType: "json",
@@ -166,15 +146,47 @@
                             }else{
                                 $('input[name=nome]').val(pessoa.nome);
                             }
-                            limparErros();
                         }
                     });
                 }else{
                     $("#error-rg").show();
                 }
             });
-        });            
+        });
     </script>
+    
+    <?php
+        function getNomePessoa($id, $list){
+            $nome = "";
+            foreach($list as $pessoa){
+                if($pessoa->id_pessoa === $id){
+                    $nome = $pessoa->nome;
+                }
+            }
+            return $nome;
+        }
+
+        function getRgPessoa($id, $list){
+            $rg = "";
+            foreach($list as $pessoa){
+                if($pessoa->id_pessoa === $id){
+                    $rg = $pessoa->rg;
+                }
+            }
+            return $rg;
+        }
+
+        function getNomeSetor($id, $list){
+            $nome = "";
+            foreach($list as $setor){
+                if($setor->id_setor === $id){
+                    $nome = $setor->nome;
+                }
+            }
+            return $nome;
+        }
+    ?>
+
     <body>
         <!-- Preloader -->
         <div class="preloader">

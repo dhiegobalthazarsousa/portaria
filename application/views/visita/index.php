@@ -1,40 +1,7 @@
-<!--********************************Funções PHP********************************-->
-<?php
-    function getNomePessoa($id, $list){
-        $nome = "";
-        foreach($list as $pessoa){
-            if($pessoa->id_pessoa === $id){
-                $nome = $pessoa->nome;
-            }
-        }
-        return $nome;
-    }
-
-    function getRgPessoa($id, $list){
-        $rg = "";
-        foreach($list as $pessoa){
-            if($pessoa->id_pessoa === $id){
-                $rg = $pessoa->rg;
-            }
-        }
-        return $rg;
-    }
-
-    function getNomeSetor($id, $list){
-        $nome = "";
-        foreach($list as $setor){
-            if($setor->id_setor === $id){
-                $nome = $setor->nome;
-            }
-        }
-        return $nome;
-    }
-?>
-
 <div class="container-fluid">
     <div class="row bg-title">
         <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-            <h4 class="page-title">DE CARAGUATTAUBA</h4>
+            <h4 class="page-title">DE CARAGUATATUBA</h4>
         </div>
     </div>
     <!-- /row -->
@@ -56,7 +23,7 @@
                         <tbody>
                             <?php if(isset($visitas)): ?>
                                 <?php foreach($visitas as $visita): ?>
-                                    <?php echo "<tr><td>".$visita->data."</td><td>".getNomePessoa($visita->id_pessoa, $pessoas)."</td><td>".getRgPessoa($visita->id_pessoa, $pessoas)."</td><td>".getNomeSetor($visita->id_setor, $setores)."</td><td>".$visita->hora_entrada."</td><td>".$visita->hora_saida."</td></tr>"; ?>
+                                    <?php echo "<tr id='$visita->id_pessoa'><td>".$visita->data."</td><td>".getNomePessoa($visita->id_pessoa, $pessoas)."</td><td>".getRgPessoa($visita->id_pessoa, $pessoas)."</td><td>".getNomeSetor($visita->id_setor, $setores)."</td><td>".$visita->hora_entrada."</td><td>".$visita->hora_saida."</td></tr>"; ?>
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         </tbody>
