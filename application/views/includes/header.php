@@ -62,7 +62,119 @@
         }
 
     </style>
+    <!--*****************************Funções Javascript*********************-->
+    <script>
 
+        function showToast(heading, text, icon){
+            $.ajax({
+                type: 'GET',
+                contentType: "json",
+                url: '<?php echo base_url(); ?>buscar/rg/pessoa/'+ $('input[name=rg]').val(),
+                success: function(data) {
+                    var pessoa = jQuery.parseJSON(data);
+                    if(pessoa == null){
+                        $.toast({
+                            heading: heading,
+                            text: text,
+                            position: 'mid-center',
+                            loaderBg: '#ff6849',
+                            icon: icon,
+                            hideAfter: 4000,
+                            showHideTransition: 'slide',
+                            stack: 6
+                        })
+                    }else{
+                        $('input[name=nome]').val(pessoa.nome);
+                    }
+                    limparErros();
+                }
+            });
+        }
+
+        function confereInputNome(){
+            if($("input[name=nome]").val() == "")
+                return false;
+            return true;
+        }
+
+        function confereInputRG(){
+            if($("input[name=rg]").val() == "")
+                return false;
+            return true;
+        }
+
+        /*
+         * @author: Dhiego Balthazar
+         * Método que limpa os imputs da página
+         *
+         *
+         */
+        function limparInputs(){
+            $('input').val("");
+            $('select').prop('selectedIndex', 0);
+        }
+
+        function limparErros(){
+            $("#error-nome").hide();
+            $("#error-rg").hide();
+        }
+
+    </script>
+
+    <!--********************Funções Javascript/JQUERY que utilizam $(function(){})*********************-->
+    <script>
+        $(function(){
+            limparErros();
+
+            //bloco para inserir uma visita 
+            $('#entrar').click(function(){
+                if(!(confereInputRG() && confereInputNome())){
+                    if(!confereInputRG()){
+                        $("#error-rg").show();
+                    }
+                    if(!confereInputNome()){
+                        $("#error-nome").show();
+                    }
+                }else{
+                    $.ajax({
+                        
+                    });
+                    var d = new Date();
+                    var strDate = d.getDate() + "/"  + (d.getMonth()+1) + "/" + d.getFullYear();
+                    var hora = d.getHours() + ":" + (d.getMinutes()<10? "0" + d.getMinutes(): d.getMinutes())+":"+(d.getSeconds()<10? "0" + d.getSeconds(): d.getSeconds());
+                    var nome = $("input[name=nome]").val();
+                    var rg = $("input[name=rg]").val();
+                    var setor = $("select[name=setor]").val();
+                    $('tbody').append("<tr><td>"+strDate+"</td><td>"+nome+"</td><td>"+rg+"</td><td>"+setor+"</td><td>"+hora+"</td><td><button type='button' class='btn btn-info' id='saida'>Marcar Saída</button></td></tr>");
+
+                    limparInputs();
+                    limparErros();
+                }
+            });
+
+            //esse bloco é para buscar uma pessoa pelo rg
+            $('#buscar_rg').click(function(){
+                if(confereInputRG()){
+                    $.ajax({
+                        type: 'GET',
+                        contentType: "json",
+                        url: '<?php echo base_url(); ?>buscar/rg/pessoa/'+ $('input[name=rg]').val(),
+                        success: function(data) {
+                            var pessoa = jQuery.parseJSON(data);
+                            if(pessoa == null){
+                                showToast("RG não cadastrado", ['Digite o nome manualmente;', 'Efetue a entrada;', 'A pessoa será cadastrada automaticamente'], "error");
+                            }else{
+                                $('input[name=nome]').val(pessoa.nome);
+                            }
+                            limparErros();
+                        }
+                    });
+                }else{
+                    $("#error-rg").show();
+                }
+            });
+        });            
+    </script>
     <body>
         <!-- Preloader -->
         <div class="preloader">
