@@ -21,11 +21,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if(isset($visitas)): ?>
-                                <?php foreach($visitas as $visita): ?>
-                                    <?php echo "<tr id='$visita->id_pessoa'><td>".$visita->data."</td><td>".getNomePessoa($visita->id_pessoa, $pessoas)."</td><td>".getRgPessoa($visita->id_pessoa, $pessoas)."</td><td>".getNomeSetor($visita->id_setor, $setores)."</td><td>".$visita->hora_entrada."</td><td>".$visita->hora_saida."</td></tr>"; ?>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
@@ -40,7 +35,7 @@
                             <div class="errors bg-danger" id="error-rg"><p>O campo RG não pode estar vazio!</p></div>
                         </div>
                         <div class="col-sm-4">
-                            <button type="button" class="btn btn-info" id="buscar_rg"><i class="fa fa-search"></i></button>
+                            <button type="button" class="btn btn-info" id="buscar_rg" onclick="efetuarBuscaRG()"><i class="fa fa-search"></i></button>
                         </div>
                     </div>
                     <div class="form-group">
@@ -54,14 +49,14 @@
                                 <select class="form-control form-control-line" name="setor">
                                     <option selected="selected">SETOR</option>
                                     <?php foreach($setores as $setor): ?>
-                                        <?php echo "<option>$setor->nome</option>"; ?>
+                                        <?php echo "<option value='$setor->id_setor'>$setor->nome</option>"; ?>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
                         </div>
                     <div class="form-group">
                         <div class="col-sm-6">
-                            <button type="button" class="btn btn-success" id="entrar">Efetuar Entrada</button>
+                            <button type="button" class="btn btn-success" id="entrar" onclick="efetuarEntrada()">Efetuar Entrada</button>
                         </div>
                     </div>
                 </form>

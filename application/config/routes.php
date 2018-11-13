@@ -53,6 +53,13 @@ $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
-$route['visitas'] = 'Visita_controller/index';
+//bloco de pessoa
 $route['buscar/rg/pessoa/(:num)'] = 'Pessoa_controller/searchRg/$1';
 $route['buscar/nome/pessoa'] = 'Pessoa_controller/searchNome';
+$route['inserir/pessoa'] = 'Pessoa_controller/inserir';
+//bloco de visita
+$route['getall/visitas'] = 'Visita_controller/index';
+$route['inserir/visita'] = 'Visita_controller/inserir' ;
+
+//bloco inicial
+$route['index'] = 'Page_controller/index';

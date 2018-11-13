@@ -97,7 +97,8 @@ $autoload['helper'] = array(
 		'url',
 	    'loadTemplate',
 	    'switchDate',
-	    'string'
+	    'string',
+	    'getDateNow'
     );
 
 /*

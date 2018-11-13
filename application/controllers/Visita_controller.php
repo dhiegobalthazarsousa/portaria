@@ -9,21 +9,35 @@ class Visita_controller extends CI_Controller{
     }
 
     public function index(){
-    	$inputPost = $this->input->post();
-        $data['pessoas'] = $this->pessoa->getAll();
-        $data['setores'] = $this->setor->getAll();
-        $data['visitas'] = $this->visita->getAll();
-        foreach($data['visitas'] as $visita){
-            $visita->data = switchDate($visita->data);
-        }
-    	if(!$inputPost){
-            $data['title'] = 'Visitas';
-            $data['old_data'] = $this->session->flashdata('old_data');
-            $data['errors'] = $this->session->flashdata('errors');
-    		loadTemplate('includes/header', 'visita/index', 'includes/footer', $data);
-    	}else{
-            $data['old_data'] = $this->session->flashdata('old_data');
-            $data['errors'] = $this->session->flashdata('errors');
+        $visitas = $this->visita->getAll();
+        echo json_encode($visitas);
+    }
+
+    public function inserir(){
+        $this->load->library('controllers/Pessoa_controller');
+        $inputPost = $this->input->post();
+        if($inputPost){
+            $nome = $this->input->post("nome");
+            $rg = $this->input->post("rg");
+            $setor = $this->input->post("setor");
+
+            $arrayPessoa = array(
+                "nome"=>$nome,
+                "rg"=>$rg
+            );
+
+            $pessoa_inserida = $this->pessoa->inserir($arrayPessoa);
+
+            $arrayVisita = array(
+                "data" => getDateNow(),
+                "id_pessoa" => $pessoa_inserida->id_pessoa,
+                "id_setor" => $setor,
+                "hora_entrada" => date("H:i:s"),
+                "hora_saida" => null
+            );
+
+            $this->visita->persist($arrayVisita);
+
         }
     }
 

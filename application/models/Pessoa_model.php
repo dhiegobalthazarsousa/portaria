@@ -93,7 +93,7 @@ class Pessoa_model extends CI_Model{
      * SQL STATEMENT: INSERT INTO pessoa VALUES(nome, rg);
      * 
      */
-    public function persist(){
-    	return $this->db->insert('pessoa', $this);
+    public function persist($array){
+    	return $this->db->replace('pessoa', $array);
     }
 }

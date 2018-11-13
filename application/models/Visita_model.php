@@ -170,7 +170,7 @@ class Visita_model extends CI_Model{
      * SQL STATEMENT: INSERT INTO visita VALUES(nome, rg);
      * 
      */
-    public function persist(){
-        return $this->db->insert('visita', $this);
+    public function persist($array){
+        return $this->db->insert('visita', $array);
     }
 }

@@ -7,7 +7,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <link rel="icon" type="image/png" sizes="16x16" href="<?php echo base_url(); ?>assets/plugins/images/favicon.png">
-        <title><?php echo $title?></title>
+        <title>Controle de Entrada</title>
         <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
         <!-- Bootstrap Core CSS -->
         <link href="<?php echo base_url(); ?>assets/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -102,56 +102,76 @@
             $("#error-rg").hide();
         }
 
+        function efetuarEntrada(){
+            limparErros();
+
+            var nome = $('input[name=rg]').val();
+            var rg = $('input[name=nome]').val();
+
+            if(!(inputIsValid(nome) && inputIsValid(rg))){
+                if(!inputIsValid(rg))
+                        $("#error-rg").show();
+                if(!inputIsValid(nome))
+                        $("#error-nome").show();
+            }else{
+                var setor_id = $('input[name=nome]').val();
+                $.ajax({
+                    url: "",
+                    type:'POST',
+                    data: jQuery.param({nome: nome, rg: rg, setor: setor_id}),
+                    success: function(response){
+                        
+                    },
+                });
+                var d = new Date();
+                var strDate = d.getDate() + "/"  + (d.getMonth()+1) + "/" + d.getFullYear();
+                var hora = d.getHours() + ":" + (d.getMinutes()<10? "0" + d.getMinutes(): d.getMinutes())+":"+(d.getSeconds()<10? "0" + d.getSeconds(): d.getSeconds());
+                var nome = $("input[name=nome]").val();
+                var rg = $("input[name=rg]").val();
+                var setor = $("select[name=setor]").val();
+                $('tbody').append("<tr><td>"+strDate+"</td><td>"+nome+"</td><td>"+rg+"</td><td>"+setor+"</td><td>"+hora+"</td><td><button type='button' class='btn btn-info' id='saida' onclick='efetuarSaida("+""+")'>Marcar Saída</button></td></tr>");
+
+                limparInputs();
+                limparErros();
+            }
+        }
+
+        function efetuarBuscaRG(){
+            limparErros();
+            var rgIsValid = inputIsValid($('input[name=rg]').val());
+            if(rgIsValid){
+                $.ajax({
+                    type: 'GET',
+                    contentType: "json",
+                    url: '<?php echo base_url(); ?>buscar/rg/pessoa/'+ $('input[name=rg]').val(),
+                    success: function(data) {
+                        var pessoa = jQuery.parseJSON(data);
+                        if(pessoa == null){
+                            showToast("RG não cadastrado", ['Digite o nome manualmente;', 'Efetue a entrada;', 'A pessoa será cadastrada automaticamente'], "error");
+                        }else{
+                            $('input[name=nome]').val(pessoa.nome);
+                        }
+                    }
+                });
+            }else{
+                $("#error-rg").show();
+            }
+        }
+
         //Metodos que funionam quando o documento carregar
         $(function(){
             limparErros();
-
-            //bloco para inserir uma visita 
-            $('#entrar').click(function(){
-                var rgIsValid = inputIsValid($('input[name=rg]').val());
-                var nomeIsValid = inputIsValid($('input[name=nome]').val());
-
-                if(!(rgIsValid && nomeIsValid)){
-                    if(!rgIsValid)
-                            $("#error-rg").show();
-                    if(!nomeIsValid)
-                            $("#error-nome").show();
-                }else{
-                    var d = new Date();
-                    var strDate = d.getDate() + "/"  + (d.getMonth()+1) + "/" + d.getFullYear();
-                    var hora = d.getHours() + ":" + (d.getMinutes()<10? "0" + d.getMinutes(): d.getMinutes())+":"+(d.getSeconds()<10? "0" + d.getSeconds(): d.getSeconds());
-                    var nome = $("input[name=nome]").val();
-                    var rg = $("input[name=rg]").val();
-                    var setor = $("select[name=setor]").val();
-                    $('tbody').append("<tr><td>"+strDate+"</td><td>"+nome+"</td><td>"+rg+"</td><td>"+setor+"</td><td>"+hora+"</td><td><button type='button' class='btn btn-info' id='saida'>Marcar Saída</button></td></tr>");
-
-                    limparInputs();
-                    limparErros();
-                }
-            });
-           
-            //esse bloco é para buscar uma pessoa pelo rg
-            $('#buscar_rg').click(function(){
-                limparErros();
-                var rgIsValid = inputIsValid($('input[name=rg]').val());
-                if(rgIsValid){
-                    $.ajax({
-                        type: 'GET',
-                        contentType: "json",
-                        url: '<?php echo base_url(); ?>buscar/rg/pessoa/'+ $('input[name=rg]').val(),
-                        success: function(data) {
-                            var pessoa = jQuery.parseJSON(data);
-                            if(pessoa == null){
-                                showToast("RG não cadastrado", ['Digite o nome manualmente;', 'Efetue a entrada;', 'A pessoa será cadastrada automaticamente'], "error");
-                            }else{
-                                $('input[name=nome]').val(pessoa.nome);
-                            }
-                        }
-                    });
-                }else{
-                    $("#error-rg").show();
-                }
-            });
+            $.ajax({
+                    url:'<?php echo base_url(); ?>getall/visitas',
+                    success: function (response){
+                        var visitas = jQuery.parseJSON(response);
+                        $.each(response, function(i, item){
+                            $('tbody').html("<tr><td>"+data[i].data+"</td><td>"+data[i].+"</td></tr>"); //mostrando resultado
+                        });
+                    }
+                })
+                timerI = setTimeout("lista()", 60000);//tempo de espera
+                        timerR = true;
         });
     </script>
     
