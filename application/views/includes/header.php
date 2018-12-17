@@ -100,36 +100,33 @@
         function limparErros(){
             $("#error-nome").hide();
             $("#error-rg").hide();
+            $("#error-setor").hide();
         }
 
         function efetuarEntrada(){
             limparErros();
-
             var nome = $('input[name=rg]').val();
             var rg = $('input[name=nome]').val();
-
-            if(!(inputIsValid(nome) && inputIsValid(rg))){
+            var id_setor = $('select[name=setor]').val();
+            if(!(inputIsValid(nome) && inputIsValid(rg) && (id_setor != -1))){
                 if(!inputIsValid(rg))
-                        $("#error-rg").show();
+                    $("#error-rg").show();
                 if(!inputIsValid(nome))
-                        $("#error-nome").show();
+                    $("#error-nome").show();
+                if(id_setor == -1)
+                    $("#error-setor").show();
             }else{
-                var setor_id = $('input[name=nome]').val();
                 $.ajax({
-                    url: "",
-                    type:'POST',
-                    data: jQuery.param({nome: nome, rg: rg, setor: setor_id}),
-                    success: function(response){
-                        
-                    },
+                    type: "POST",
+                    url: '<?php echo base_url(); ?>inserir/visita', 
+                    data: $('#form-pessoa').serialize(),
+                    dataType: "json",  
+                    success: 
+                    function(data){
+                        var response = jQuery.parseJSON(data);
+                        alert(response.nome);
+                    }
                 });
-                var d = new Date();
-                var strDate = d.getDate() + "/"  + (d.getMonth()+1) + "/" + d.getFullYear();
-                var hora = d.getHours() + ":" + (d.getMinutes()<10? "0" + d.getMinutes(): d.getMinutes())+":"+(d.getSeconds()<10? "0" + d.getSeconds(): d.getSeconds());
-                var nome = $("input[name=nome]").val();
-                var rg = $("input[name=rg]").val();
-                var setor = $("select[name=setor]").val();
-                $('tbody').append("<tr><td>"+strDate+"</td><td>"+nome+"</td><td>"+rg+"</td><td>"+setor+"</td><td>"+hora+"</td><td><button type='button' class='btn btn-info' id='saida' onclick='efetuarSaida("+""+")'>Marcar Saída</button></td></tr>");
 
                 limparInputs();
                 limparErros();
@@ -158,20 +155,42 @@
             }
         }
 
+        function carregarVisitas(){
+            $.ajax({
+                url:'<?php echo base_url(); ?>getall/visitas',
+                format: "json",
+                success: 
+                    $.getJSON('<?php echo base_url(); ?>getall/visitas', {
+                        format: "json"
+                    }).done(function(data){
+                        $.each(data,function(i,visita){
+                            $('tbody').append("<tr><td>"+visita.data+"</td><td>"+visita.nome+"</td><td>"+visita.rg+"</td><td>"+visita.setor+"</td><td>"+visita.hora_entrada+"</td><td>"+visita.hora_saida+"</td></tr>");
+                        });
+                    }),
+            });
+        }
+
+        function carregarSetores(){
+            var url = '<?php echo base_url(); ?>getall/setores';
+            $.ajax({
+                url: url,
+                format: "json",
+                success: 
+                    $.getJSON(url, {
+                        format: "json"
+                    }).done(function(data){
+                        $.each(data,function(i,setor){
+                            $('select[name=setor]').append("<option value="+setor.id_setor+">"+setor.nome+"</option>");
+                        });
+                    }),
+            });
+        }
+
         //Metodos que funionam quando o documento carregar
         $(function(){
             limparErros();
-            $.ajax({
-                    url:'<?php echo base_url(); ?>getall/visitas',
-                    success: function (response){
-                        var visitas = jQuery.parseJSON(response);
-                        $.each(response, function(i, item){
-                            $('tbody').html("<tr><td>"+data[i].data+"</td><td>"+data[i].+"</td></tr>"); //mostrando resultado
-                        });
-                    }
-                })
-                timerI = setTimeout("lista()", 60000);//tempo de espera
-                        timerR = true;
+            carregarSetores();
+            carregarVisitas();                
         });
     </script>
     

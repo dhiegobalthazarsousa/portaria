@@ -88,4 +88,10 @@ class Setor_model extends CI_Model{
     	$query = $this->db->get('setor');
     	return $query->result();
     }
+
+     public function findById($id){
+        $this->db->select('*');
+        $this->db->where('id_setor', $id);
+        return $this->db->get('setor')->row();
+    }
 }

@@ -60,6 +60,7 @@ $route['inserir/pessoa'] = 'Pessoa_controller/inserir';
 //bloco de visita
 $route['getall/visitas'] = 'Visita_controller/index';
 $route['inserir/visita'] = 'Visita_controller/inserir' ;
-
 //bloco inicial
 $route['index'] = 'Page_controller/index';
+//bloco de setor
+$route['getall/setores'] = 'Setor_controller/index';

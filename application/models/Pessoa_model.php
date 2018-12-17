@@ -71,6 +71,12 @@ class Pessoa_model extends CI_Model{
     	return $this->db->get('pessoa')->row();
     }
 
+     public function findById($id){
+        $this->db->select('*');
+        $this->db->where('id_pessoa', $id);
+        return $this->db->get('pessoa')->row();
+    }
+
     /*
      * @author: Dhiego Balthazar
      * @returns: mixed Pessoa

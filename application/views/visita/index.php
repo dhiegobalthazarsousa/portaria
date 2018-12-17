@@ -47,11 +47,9 @@
                     <div class="form-group">
                             <div class="col-sm-2">
                                 <select class="form-control form-control-line" name="setor">
-                                    <option selected="selected">SETOR</option>
-                                    <?php foreach($setores as $setor): ?>
-                                        <?php echo "<option value='$setor->id_setor'>$setor->nome</option>"; ?>
-                                    <?php endforeach; ?>
+                                    <option selected="selected" value="-1">SETOR</option>
                                 </select>
+                                <div class="errors bg-danger" id="error-setor"><p>O campo SETOR não pode estar vazio!</p></div>
                             </div>
                         </div>
                     <div class="form-group">
